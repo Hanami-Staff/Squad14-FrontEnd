@@ -8,6 +8,7 @@ const Button = ({ children, onClick, className }: ButtonProps) => {
   return (
     <button
       className={`${className} px-4 py-2 w-fit rounded-md transition-all duration-300 text-white`}
+      onClick={onClick}
     >
       {children}
     </button>
