@@ -1,3 +1,5 @@
+'use client'
+
 import { formatedDate } from '@/utils/dateUtils'
 import React, { HTMLAttributes } from 'react'
 import CardMenu from './CardMenu'

@@ -1,5 +1,6 @@
 'use client'
 
+import { ReadModal } from "@/components"
 import { Operations } from "@/types"
 import { createContext, Dispatch, ReactNode, useContext, useReducer } from "react"
 
@@ -34,25 +35,25 @@ export const DialogProvider = ({ children }: { children: ReactNode }) => {
         return {
           ...state,
           isOpen: true,
-          element: <h1 className="text-3xl text-white">CRIAR</h1>
+          element: <h1 className="text-3xl text-white z-50">CRIAR</h1>
         }
       case Operations.UPDATE:
         return {
           ...state,
           isOpen: true,
-          element: <h1 className="text-3xl text-white">ATUALIZAR {action.payload}</h1>
+          element: <h1 className="text-3xl text-white z-50">ATUALIZAR {action.payload}</h1>
         }
       case Operations.READ:
         return {
           ...state,
           isOpen: true,
-          element: <h1 className="text-3xl text-white">POSTAGEM {action.payload}</h1>
+          element: <ReadModal id={action.payload} />
         }
       case Operations.DELETE:
         return {
           ...state,
           isOpen: true,
-          element: <h1 className="text-3xl text-white">DELETAR {action.payload}</h1>
+          element: <h1 className="text-3xl text-white z-50">DELETAR {action.payload}</h1>
         }
       case Operations.CLOSE:
         return {

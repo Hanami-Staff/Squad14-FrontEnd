@@ -1,28 +1,22 @@
 'use client'
 
 import { Backdrop, Button, CardPost } from "@/components";
+import { useAppContext } from "@/context/appContext";
 import { useDialogContext } from "@/context/dialogContext";
+import { usePost } from "@/hooks";
 import { Operations } from "@/types";
 import { AnimatePresence } from "framer-motion";
+import { useEffect } from "react";
 
 export default function Home() {
 
-  const { isOpen, element, dispatch } = useDialogContext()
+  const { isOpen, element } = useDialogContext()
+  const { posts } = useAppContext()
+  const { getAllPosts } = usePost()
 
-  const posts = [
-    {
-      id: "1",
-      title: "TESTE",
-      content: "TESTE TESTADO",
-      createdAt: "2024-05-21T12:17:55.963-03:00"
-    },
-    {
-      id: "2",
-      title: "TESTE 2",
-      content: "TESTE TESTADO 2",
-      createdAt: "2024-05-28T12:17:55.963-03:00"
-    },
-  ]
+  useEffect(() => {
+    getAllPosts()
+  }, [])
 
   return (
     <main className="h-[1100px] pt-[75px]">
@@ -46,7 +40,7 @@ export default function Home() {
 
       <AnimatePresence>
         {isOpen &&
-          <Backdrop onClick={() => dispatch({ type: Operations.CLOSE })}>
+          <Backdrop>
             {element}
           </Backdrop>
         }
