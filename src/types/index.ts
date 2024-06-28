@@ -14,3 +14,8 @@ export type Post = {
   content: string,
   createdAt: string
 }
+
+export type ToastProps = {
+  type: "OK" | "ERROR",
+  message: string
+}

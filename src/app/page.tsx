@@ -1,16 +1,15 @@
 'use client'
 
-import { Backdrop, Button, CardPost } from "@/components";
+import { Backdrop, CardPost } from "@/components";
 import { useAppContext } from "@/context/appContext";
 import { useDialogContext } from "@/context/dialogContext";
 import { usePost } from "@/hooks";
-import { Operations } from "@/types";
 import { AnimatePresence } from "framer-motion";
 import { useEffect } from "react";
 
 export default function Home() {
 
-  const { isOpen, element } = useDialogContext()
+  const { isOpen, element, isToastOpen, toast } = useDialogContext()
   const { posts } = useAppContext()
   const { getAllPosts } = usePost()
 
@@ -37,6 +36,14 @@ export default function Home() {
 
       </div>
 
+      <AnimatePresence>
+        {isToastOpen &&
+          <>
+            {toast}
+          </>
+        }
+      </AnimatePresence>
+
 
       <AnimatePresence>
         {isOpen &&
@@ -45,6 +52,7 @@ export default function Home() {
           </Backdrop>
         }
       </AnimatePresence>
+
 
     </main>
   );

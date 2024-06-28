@@ -1,10 +1,12 @@
 import { useAppContext } from "@/context/appContext"
+import { useDialogContext } from "@/context/dialogContext"
 import { api } from "@/lib/api"
-import { Post } from "@/types"
+import { Operations, Post } from "@/types"
 import { sortDate } from "@/utils/dateUtils"
 
 const usePost = () => {
   const { setPosts } = useAppContext()
+  const { dispatch } = useDialogContext()
 
   const getAllPosts = async () => {
     api.get('/posts')
@@ -24,9 +26,21 @@ const usePost = () => {
     }
   }
 
+  const deletePost = async (id: string) => {
+    api.delete(`/posts/${id}`)
+      .then(res => {
+        dispatch({ type: Operations.TOAST, payload: { type: "OK", message: res.data } })
+      })
+      .catch(err => {
+        dispatch({ type: Operations.TOAST, payload: { type: "ERROR", message: err.response.data.message } })
+      })
+      .finally(() => getAllPosts())
+  }
+
   return {
     getAllPosts,
-    getPostById
+    getPostById,
+    deletePost
   }
 }
 
