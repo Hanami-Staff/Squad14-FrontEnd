@@ -5,7 +5,7 @@ import { createContext, Dispatch, ReactNode, useContext, useReducer } from "reac
 
 type Action =
   | { type: Operations.CREATE | Operations.CLOSE }
-  | { type: Operations.UPDATE, payload: string }
+  | { type: Operations.UPDATE | Operations.DELETE | Operations.READ, payload: string }
 
 interface State {
   isOpen: boolean,
@@ -42,7 +42,18 @@ export const DialogProvider = ({ children }: { children: ReactNode }) => {
           isOpen: true,
           element: <h1 className="text-3xl text-white">ATUALIZAR {action.payload}</h1>
         }
-
+      case Operations.READ:
+        return {
+          ...state,
+          isOpen: true,
+          element: <h1 className="text-3xl text-white">POSTAGEM {action.payload}</h1>
+        }
+      case Operations.DELETE:
+        return {
+          ...state,
+          isOpen: true,
+          element: <h1 className="text-3xl text-white">DELETAR {action.payload}</h1>
+        }
       case Operations.CLOSE:
         return {
           ...state,
