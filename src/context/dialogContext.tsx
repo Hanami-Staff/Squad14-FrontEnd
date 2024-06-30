@@ -1,6 +1,6 @@
 'use client'
 
-import { DeleteModal, ReadModal, Toast } from "@/components"
+import { DeleteModal, FormModal, ReadModal, Toast } from "@/components"
 import { Operations, ToastProps } from "@/types"
 import { createContext, Dispatch, ReactNode, useContext, useReducer } from "react"
 
@@ -36,7 +36,7 @@ export const DialogProvider = ({ children }: { children: ReactNode }) => {
         return {
           ...state,
           isOpen: true,
-          element: <h1 className="text-3xl text-white z-50">CRIAR</h1>
+          element: <FormModal operation="Criar" />
         }
       case Operations.UPDATE:
         return {
