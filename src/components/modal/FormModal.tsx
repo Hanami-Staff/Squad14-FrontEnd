@@ -9,6 +9,7 @@ import { motion } from 'framer-motion'
 import { usePost } from "@/hooks"
 import { animation } from '@/utils/animations'
 import Button from "../Button"
+import { useEffect } from "react"
 
 
 
@@ -21,7 +22,7 @@ interface FormModalProps {
 
 const FormModal = ({ id, operation }: FormModalProps) => {
     const { dispatch } = useDialogContext()
-    const { createPost } = usePost()
+    const { createPost, updatePost, getPostById } = usePost()
 
     const { handleSubmit, register, formState: {
         errors
@@ -35,11 +36,24 @@ const FormModal = ({ id, operation }: FormModalProps) => {
         }
     })
 
+    useEffect(() => {
+        if (id!) {
+            getPostById(id)
+                .then(res => {
+                    reset({
+                        title: res?.title,
+                        content: res?.content
+                    })
+                })
+                .catch(err => console.error(err))
+        }
+    }, [])
+
     const handleSubmitForm: SubmitHandler<Post> = data => {
         dispatch({
             type: Operations.CLOSE
         })
-        createPost(data)
+        id! ? updatePost(id, data) : createPost(data)
     }
 
     return (

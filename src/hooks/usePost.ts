@@ -41,6 +41,19 @@ const usePost = () => {
     }
   }
 
+  const updatePost = async (id: string, post: Post) => {
+    api.put(`/posts/${id}`, post)
+      .then(res => {
+        dispatch({ type: Operations.TOAST, payload: { type: "OK", message: res.data } })
+      })
+      .catch(err => {
+        dispatch({ type: Operations.TOAST, payload: { type: "ERROR", message: err.response.data.message } })
+      })
+      .finally(() => getAllPosts())
+  }
+
+
+
   const deletePost = async (id: string) => {
     api.delete(`/posts/${id}`)
       .then(res => {
@@ -56,6 +69,7 @@ const usePost = () => {
     createPost,
     getAllPosts,
     getPostById,
+    updatePost,
     deletePost
   }
 }

@@ -42,7 +42,7 @@ export const DialogProvider = ({ children }: { children: ReactNode }) => {
         return {
           ...state,
           isOpen: true,
-          element: <h1 className="text-3xl text-white z-50">ATUALIZAR {action.payload}</h1>
+          element: <FormModal operation="Editar" id={action.payload} />
         }
       case Operations.READ:
         return {
