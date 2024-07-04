@@ -8,6 +8,21 @@ const usePost = () => {
   const { setPosts } = useAppContext()
   const { dispatch } = useDialogContext()
 
+  const createPost = async (post: Post) => {
+    api.post('/posts', post)
+      .then(() => {
+        dispatch({
+          type: Operations.TOAST,
+          payload: {
+            type: 'OK',
+            message: 'Postagem criada com sucesso'
+          }
+        })
+      })
+      .catch(err => console.error(err.response.data.message))
+      .finally(() => getAllPosts())
+  }
+
   const getAllPosts = async () => {
     api.get('/posts')
       .then(res => {
@@ -38,6 +53,7 @@ const usePost = () => {
   }
 
   return {
+    createPost,
     getAllPosts,
     getPostById,
     deletePost

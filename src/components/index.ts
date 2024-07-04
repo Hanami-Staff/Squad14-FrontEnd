@@ -3,6 +3,7 @@ import Button from "./Button";
 import Backdrop from "./Backdrop";
 import CardPost from "./CardPost";
 import CardMenu from "./CardMenu";
+import FormModal from "./modal/FormModal";
 import ReadModal from "./modal/ReadModal";
 import DeleteModal from "./modal/DeleteModal";
 import Toast from "./Toast";
@@ -14,6 +15,7 @@ export {
   Toast,
   CardPost,
   CardMenu,
+  FormModal,
   ReadModal,
   DeleteModal
 }
