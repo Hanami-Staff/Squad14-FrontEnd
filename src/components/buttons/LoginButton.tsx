@@ -10,7 +10,7 @@ const LoginButton = ({ className, children }: LoginButtonProps) => {
   return (
     <Button
       className={`${className} bg-sky-600 text-white hover:bg-sky-500`}
-    //onClick={() => dispatch({ type: Operations.LOGIN })}
+      onClick={() => dispatch({ type: Operations.LOGIN })}
     >
       {children}
     </Button>
