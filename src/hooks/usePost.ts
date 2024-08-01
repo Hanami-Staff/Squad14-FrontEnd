@@ -1,7 +1,8 @@
 import { useAppContext } from "@/context/appContext"
 import { useDialogContext } from "@/context/dialogContext"
 import { api } from "@/lib/api"
-import { Operations, Post } from "@/types"
+import { Operations } from "@/types"
+import { Post } from "@/types/Post"
 import { sortDate } from "@/utils/dateUtils"
 
 const usePost = () => {
