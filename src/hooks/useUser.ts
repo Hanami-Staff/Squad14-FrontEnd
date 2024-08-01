@@ -11,7 +11,7 @@ import { useDialogContext } from "@/context/dialogContext"
 const useUser = () => {
   const router = useRouter()
   const { dispatch } = useDialogContext()
-
+  const { setUser } = useAppContext()
   const [error, setError] = useState('')
 
   const createUser = (user: User) => {
@@ -29,7 +29,7 @@ const useUser = () => {
           sameSite: "strict"
         })
         setError('')
-
+        setUser(res.data)
         dispatch({ type: Operations.CLOSE })
       })
       .catch(err => setError(err.response.data.message))
@@ -40,7 +40,7 @@ const useUser = () => {
     deleteCookie('user', {
       sameSite: 'strict'
     })
-
+    setUser(null)
   }
 
   return {
