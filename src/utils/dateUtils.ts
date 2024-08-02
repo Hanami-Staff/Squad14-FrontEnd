@@ -11,6 +11,6 @@ export const formatedDateWTime = (date: string | undefined): string | undefined 
 }
 
 
-export const sortDate = (posts: Array<Post>): Array<Post> => {
+export const sortDate = <T extends { createdAt: string }>(posts: Array<T>): Array<T> => {
   return posts.sort((a, b) => new Date(b.createdAt!).getTime() - new Date(a.createdAt!).getTime())
 }
