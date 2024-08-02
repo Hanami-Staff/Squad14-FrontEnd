@@ -1,5 +1,5 @@
 import Navbar from "./Navbar";
-import Button from "./Button";
+import Button from "./buttons/Button";
 import Backdrop from "./Backdrop";
 import CardPost from "./CardPost";
 import CardMenu from "./CardMenu";

@@ -1,15 +1,15 @@
 'use client'
 
 import { useDialogContext } from "@/context/dialogContext"
-import { Post, PostSchema } from "@/types"
+import { Post, PostSchema } from "@/types/Post"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { Operations } from '@/types'
-import { motion } from 'framer-motion'
 import { usePost } from "@/hooks"
-import { animation } from '@/utils/animations'
-import Button from "../Button"
+import Button from "../buttons/Button"
 import { useEffect } from "react"
+import Modal from "./Modal"
+import { useAppContext } from "@/context/appContext"
 
 
 
@@ -22,6 +22,7 @@ interface FormModalProps {
 
 const FormModal = ({ id, operation }: FormModalProps) => {
     const { dispatch } = useDialogContext()
+    const { user } = useAppContext()
     const { createPost, updatePost, getPostById } = usePost()
 
     const { handleSubmit, register, formState: {
@@ -31,6 +32,7 @@ const FormModal = ({ id, operation }: FormModalProps) => {
         criteriaMode: "all",
         resolver: zodResolver(PostSchema),
         defaultValues: {
+            userId: user?.id!,
             title: '',
             content: ''
         }
@@ -58,12 +60,8 @@ const FormModal = ({ id, operation }: FormModalProps) => {
 
     return (
 
-        <motion.div
-            variants={animation}
-            initial='hidden'
-            animate='visible'
-            exit='exit'
-            className='w-[75%] max-w-[790px] modal'
+        <Modal
+            className='w-[75%] max-w-[760px] mx-4 modal'
         >
             <h1
                 className='text-white text-xl font-bold mb-4'
@@ -146,7 +144,7 @@ const FormModal = ({ id, operation }: FormModalProps) => {
                     </Button>
                 </div>
             </form>
-        </motion.div>
+        </Modal>
     )
 }
 

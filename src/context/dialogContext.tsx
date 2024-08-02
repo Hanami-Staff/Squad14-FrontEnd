@@ -1,11 +1,12 @@
 'use client'
 
 import { DeleteModal, FormModal, ReadModal, Toast } from "@/components"
+import RegisterModal from "@/components/modal/RegisterModal"
 import { Operations, ToastProps } from "@/types"
 import { createContext, Dispatch, ReactNode, useContext, useReducer } from "react"
 
 type Action =
-  | { type: Operations.CREATE | Operations.CLOSE | Operations.CLOSE_TOAST }
+  | { type: Operations.REGISTER | Operations.CREATE | Operations.CLOSE | Operations.CLOSE_TOAST }
   | { type: Operations.UPDATE | Operations.DELETE | Operations.READ, payload: string }
   | { type: Operations.TOAST, payload: ToastProps }
 
@@ -55,6 +56,12 @@ export const DialogProvider = ({ children }: { children: ReactNode }) => {
           ...state,
           isOpen: true,
           element: <DeleteModal id={action.payload} />
+        }
+      case Operations.REGISTER:
+        return {
+          ...state,
+          isOpen: true,
+          element: <RegisterModal />
         }
       case Operations.TOAST:
         return {
