@@ -4,10 +4,12 @@ import { api } from "@/lib/api"
 import { Operations } from "@/types"
 import { Post } from "@/types/Post"
 import { sortDate } from "@/utils/dateUtils"
+import useComment from "./useComment"
 
 const usePost = () => {
   const { setPosts } = useAppContext()
   const { dispatch } = useDialogContext()
+  const { getComments } = useComment()
 
   const createPost = async (post: Post) => {
     api.post('/posts', post)
@@ -27,7 +29,7 @@ const usePost = () => {
   const getAllPosts = async () => {
     api.get('/posts')
       .then(res => {
-        setPosts(sortDate(res.data))
+        setPosts(sortDate(res.data) as Array<Post>)
       })
       .catch(err => console.error("ERRO"))
   }
@@ -36,6 +38,7 @@ const usePost = () => {
     try {
       const res = await api.get(`/posts/${id}`)
       const post = res.data
+      getComments(id)
       return post
     } catch (err) {
       return undefined
