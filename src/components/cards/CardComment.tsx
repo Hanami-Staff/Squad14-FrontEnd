@@ -3,19 +3,19 @@ import { Comment } from '@/types/Comment'
 import { formatedDateWTime } from '@/utils/dateUtils'
 import React, { useState } from 'react'
 import { useAppContext } from '@/context/appContext'
-import { useDialogContext } from '@/context/dialogContext'
 import { verifyUser } from '@/utils/userUtils'
 import CardMenu from '../CardMenu'
+import FormComment from '../forms/FormComment'
 
 interface CardCommentProps {
   comment: Comment
 }
 
 const CardComment = ({ comment }: CardCommentProps) => {
-  const { content, createdAt, userId, id, username } = comment
+  const { content, createdAt, userId, id, username, postId } = comment
   const { user } = useAppContext()
-  const { dispatch, isEditing } = useDialogContext()
-  const [state, setState] = useState<string>(content)
+  const [isEditing, setIsEditing] = useState<boolean>(false)
+
 
   return (
     <div
@@ -28,10 +28,11 @@ const CardComment = ({ comment }: CardCommentProps) => {
       </p>
       {
         isEditing ?
-          <input
-            className='text-black'
-            onChange={e => setState(e.target.value)}
-            value={state}
+          <FormComment
+            id={id}
+            postId={postId}
+            isEditing={isEditing}
+            setIsEditing={setIsEditing}
           />
           :
           <p>
@@ -42,7 +43,7 @@ const CardComment = ({ comment }: CardCommentProps) => {
       <div
         className='text-black'
       >
-        {verifyUser(user!, userId!) && <CardMenu id={id!} />}
+        {verifyUser(user!, userId!) && <CardMenu setIsEditing={setIsEditing} type='COMMENT' id={id!} />}
 
       </div>
     </div>

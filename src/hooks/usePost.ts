@@ -45,7 +45,7 @@ const usePost = () => {
     }
   }
 
-  const updatePost = async (id: string, post: Post) => {
+  const updatePost = (id: string, post: Post) => {
     api.put(`/posts/${id}`, post)
       .then(res => {
         dispatch({ type: Operations.TOAST, payload: { type: "OK", message: res.data } })

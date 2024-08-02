@@ -16,6 +16,7 @@ interface State {
   element: ReactNode,
   isToastOpen: boolean,
   toast: ReactNode
+  isEditing: boolean
 }
 
 interface Context extends State {
@@ -29,7 +30,8 @@ export const DialogProvider = ({ children }: { children: ReactNode }) => {
     isOpen: false,
     element: null,
     isToastOpen: false,
-    toast: null
+    toast: null,
+    isEditing: false
   }
 
   const reducer = (state: State, action: Action): State => {
@@ -100,7 +102,8 @@ export const DialogProvider = ({ children }: { children: ReactNode }) => {
         element: state.element,
         isToastOpen: state.isToastOpen,
         toast: state.toast,
-        dispatch: dispatch
+        dispatch: dispatch,
+        isEditing: state.isEditing
       }}
     >
       {children}

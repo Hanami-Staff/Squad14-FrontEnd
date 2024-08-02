@@ -6,14 +6,18 @@ import { Comment, CommentSchema } from "@/types/Comment"
 import { getCookie } from "cookies-next"
 import useComment from "@/hooks/useComment"
 import { Button } from "../buttons"
+import { useEffect } from "react"
+
 
 interface FormCommentProps {
-  postId: string
+  id?: string | undefined,
+  postId: string,
+  isEditing?: boolean,
+  setIsEditing?: (param: boolean) => void
 }
 
-const FormComment = ({ postId }: FormCommentProps) => {
-  const { createComment } = useComment()
-
+const FormComment = ({ id, postId, isEditing, setIsEditing }: FormCommentProps) => {
+  const { createComment, getCommentById, updateComment } = useComment()
   const user = JSON.parse(getCookie('user')!)
 
   const { handleSubmit, register, formState: { errors }, reset } = useForm({
@@ -27,11 +31,23 @@ const FormComment = ({ postId }: FormCommentProps) => {
     }
   })
 
+  useEffect(() => {
+    if (id) {
+      getCommentById(id)
+        .then(res => {
+          reset({
+            userId: user.id,
+            postId: postId,
+            content: res?.content
+          })
+        })
+        .catch(err => console.error(err))
+    }
+  }, [])
+
   const handleSubmitForm: SubmitHandler<Comment> = (data) => {
-    createComment(postId, data)
-    reset({
-      content: ''
-    })
+    id ? updateComment(postId, id, data) : createComment(postId, data)
+    setIsEditing!(false)
   }
 
   return (
@@ -52,10 +68,21 @@ const FormComment = ({ postId }: FormCommentProps) => {
           <p className='error'>* {errors.content.message}</p>
         }
       </div>
+
+      {
+        (isEditing && id !== undefined) &&
+        <Button
+          className="bg-gray-500 hover:bg-gray-600 h-fit"
+          onClick={() => setIsEditing!(false)}
+        >
+          Cancelar
+        </Button>
+      }
+
       <Button
         className="bg-emerald-500 hover:bg-emerald-600 h-fit"
       >
-        Comentar
+        {id !== undefined ? 'Editar' : 'Comentar'}
       </Button>
     </form>
   )
