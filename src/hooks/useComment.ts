@@ -1,12 +1,13 @@
 import { useAppContext } from "@/context/appContext"
-/* import { useDialogContext } from "@/context/dialogContext" */
+import { useDialogContext } from "@/context/dialogContext"
 import { api } from "@/lib/api"
+import { Operations } from "@/types"
 import { Comment } from "@/types/Comment"
 import { sortDate } from "@/utils/dateUtils"
 
 const useComment = () => {
   const { setComments } = useAppContext()
-  /* const { dispatch } = useDialogContext() */
+  const { dispatch } = useDialogContext()
 
   const createComment = async (postId: string, comment: Comment) => {
     api.post(`/comments`, comment)
@@ -37,7 +38,7 @@ const useComment = () => {
   const updateComment = async (postId: string, commentId: string, comment: Comment) => {
     api.put(`/comments/${commentId}`, comment)
       .then(res => {
-
+        dispatch({ type: Operations.TOAST, payload: { type: "OK", message: res.data } })
       })
       .catch(err => {
 
@@ -45,17 +46,21 @@ const useComment = () => {
       .finally(() => getComments(postId))
   }
 
-  /*  const deleteComment = (commentId: string) => {
-     console.log("Comentario deletado");
- 
-   } */
+  const deleteComment = async (commentId: string) => {
+    const comment = await getCommentById(commentId)
+    api.delete(`/comments/${commentId}`)
+      .then(res => {
+        dispatch({ type: Operations.TOAST, payload: { type: "OK", message: res.data } })
+      })
+      .finally(() => getComments(comment?.postId!))
+  }
 
   return {
     createComment,
     getComments,
     getCommentById,
-    updateComment
-    /* deleteComment */
+    updateComment,
+    deleteComment
   }
 }
 
