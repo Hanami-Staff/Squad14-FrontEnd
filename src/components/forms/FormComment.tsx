@@ -46,8 +46,12 @@ const FormComment = ({ id, postId, isEditing, setIsEditing }: FormCommentProps) 
   }, [])
 
   const handleSubmitForm: SubmitHandler<Comment> = (data) => {
-    id ? updateComment(postId, id, data) : createComment(postId, data)
-    setIsEditing!(false)
+    if (id) {
+      updateComment(postId, id, data)
+      setIsEditing!(false)
+    } else {
+      createComment(postId, data)
+    }
   }
 
   return (

@@ -11,9 +11,10 @@ interface CardMenuProps {
   type: "COMMENT" | "POST",
   id: string
   setIsEditing?: (param: boolean) => void
+  className?: string
 }
 
-const CardMenu = ({ type, id, setIsEditing }: CardMenuProps) => {
+const CardMenu = ({ type, id, setIsEditing, className }: CardMenuProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
   const menuRef = useRef<HTMLDivElement>(null)
@@ -52,7 +53,7 @@ const CardMenu = ({ type, id, setIsEditing }: CardMenuProps) => {
       type: "COMMENT",
       label: "Excluir",
       onClick: (id: string) => {
-        dispatch({ type: Operations.DELETE, payload: id })
+        dispatch({ type: Operations.DELETE, payload: { type: "COMMENT", id } })
         setIsOpen(false)
       }
     },
@@ -68,7 +69,7 @@ const CardMenu = ({ type, id, setIsEditing }: CardMenuProps) => {
       type: "POST",
       label: "Excluir",
       onClick: (id: string) => {
-        dispatch({ type: Operations.DELETE, payload: id })
+        dispatch({ type: Operations.DELETE, payload: { type: "POST", id } })
         setIsOpen(false)
       }
     },
@@ -87,6 +88,7 @@ const CardMenu = ({ type, id, setIsEditing }: CardMenuProps) => {
         >
           <BsThreeDots
             size={20}
+            className={className}
           />
         </div>
 

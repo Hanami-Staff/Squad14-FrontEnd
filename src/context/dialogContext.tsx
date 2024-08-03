@@ -8,7 +8,8 @@ import { createContext, Dispatch, ReactNode, useContext, useReducer } from "reac
 
 type Action =
   | { type: Operations.REGISTER | Operations.CREATE | Operations.CLOSE | Operations.CLOSE_TOAST | Operations.LOGIN }
-  | { type: Operations.UPDATE | Operations.DELETE | Operations.READ, payload: string }
+  | { type: Operations.UPDATE | Operations.READ, payload: string }
+  | { type: Operations.DELETE, payload: { type: "POST" | "COMMENT", id: string } }
   | { type: Operations.TOAST, payload: ToastProps }
 
 interface State {
@@ -58,7 +59,7 @@ export const DialogProvider = ({ children }: { children: ReactNode }) => {
         return {
           ...state,
           isOpen: true,
-          element: <DeleteModal id={action.payload} />
+          element: <DeleteModal type={action.payload.type} id={action.payload.id} />
         }
       case Operations.REGISTER:
         return {

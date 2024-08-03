@@ -43,7 +43,13 @@ const CardComment = ({ comment }: CardCommentProps) => {
       <div
         className='text-black'
       >
-        {verifyUser(user!, userId!) && <CardMenu setIsEditing={setIsEditing} type='COMMENT' id={id!} />}
+        {verifyUser(user!, userId!) &&
+          <CardMenu
+            setIsEditing={setIsEditing}
+            type='COMMENT'
+            id={id!}
+            className='text-white'
+          />}
 
       </div>
     </div>
