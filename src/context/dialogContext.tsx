@@ -8,7 +8,8 @@ import { createContext, Dispatch, ReactNode, useContext, useReducer } from "reac
 
 type Action =
   | { type: Operations.REGISTER | Operations.CREATE | Operations.CLOSE | Operations.CLOSE_TOAST | Operations.LOGIN }
-  | { type: Operations.UPDATE | Operations.DELETE | Operations.READ, payload: string }
+  | { type: Operations.UPDATE | Operations.READ, payload: string }
+  | { type: Operations.DELETE, payload: { type: "POST" | "COMMENT", id: string } }
   | { type: Operations.TOAST, payload: ToastProps }
 
 interface State {
@@ -16,6 +17,7 @@ interface State {
   element: ReactNode,
   isToastOpen: boolean,
   toast: ReactNode
+  isEditing: boolean
 }
 
 interface Context extends State {
@@ -29,7 +31,8 @@ export const DialogProvider = ({ children }: { children: ReactNode }) => {
     isOpen: false,
     element: null,
     isToastOpen: false,
-    toast: null
+    toast: null,
+    isEditing: false
   }
 
   const reducer = (state: State, action: Action): State => {
@@ -56,7 +59,7 @@ export const DialogProvider = ({ children }: { children: ReactNode }) => {
         return {
           ...state,
           isOpen: true,
-          element: <DeleteModal id={action.payload} />
+          element: <DeleteModal type={action.payload.type} id={action.payload.id} />
         }
       case Operations.REGISTER:
         return {
@@ -100,7 +103,8 @@ export const DialogProvider = ({ children }: { children: ReactNode }) => {
         element: state.element,
         isToastOpen: state.isToastOpen,
         toast: state.toast,
-        dispatch: dispatch
+        dispatch: dispatch,
+        isEditing: state.isEditing
       }}
     >
       {children}

@@ -8,10 +8,13 @@ import { useDialogContext } from '@/context/dialogContext';
 import { Operations } from '@/types';
 
 interface CardMenuProps {
+  type: "COMMENT" | "POST",
   id: string
+  setIsEditing?: (param: boolean) => void
+  className?: string
 }
 
-const CardMenu = ({ id }: CardMenuProps) => {
+const CardMenu = ({ type, id, setIsEditing, className }: CardMenuProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
   const menuRef = useRef<HTMLDivElement>(null)
@@ -32,6 +35,7 @@ const CardMenu = ({ id }: CardMenuProps) => {
   const { dispatch } = useDialogContext()
 
   type MenuOption = {
+    type: "COMMENT" | "POST",
     label: "Editar" | "Excluir",
     onClick: (id: string) => void
   }
@@ -39,6 +43,22 @@ const CardMenu = ({ id }: CardMenuProps) => {
 
   const menuOptions: Array<MenuOption> = [
     {
+      type: "COMMENT",
+      label: "Editar",
+      onClick: (id: string) => {
+        setIsEditing!(true)
+      }
+    },
+    {
+      type: "COMMENT",
+      label: "Excluir",
+      onClick: (id: string) => {
+        dispatch({ type: Operations.DELETE, payload: { type: "COMMENT", id } })
+        setIsOpen(false)
+      }
+    },
+    {
+      type: "POST",
       label: "Editar",
       onClick: (id: string) => {
         dispatch({ type: Operations.UPDATE, payload: id })
@@ -46,14 +66,16 @@ const CardMenu = ({ id }: CardMenuProps) => {
       }
     },
     {
+      type: "POST",
       label: "Excluir",
       onClick: (id: string) => {
-        dispatch({ type: Operations.DELETE, payload: id })
+        dispatch({ type: Operations.DELETE, payload: { type: "POST", id } })
         setIsOpen(false)
       }
     },
   ]
 
+  const typeOptions = menuOptions.filter(option => option.type === type)
   return (
     <>
       <div
@@ -66,6 +88,7 @@ const CardMenu = ({ id }: CardMenuProps) => {
         >
           <BsThreeDots
             size={20}
+            className={className}
           />
         </div>
 
@@ -80,7 +103,7 @@ const CardMenu = ({ id }: CardMenuProps) => {
             className='flex flex-col bg-white border shadow-sm w-[100px] gap-1 absolute right-4 top-6 rounded-md'
           >
 
-            {menuOptions.map(({ label, onClick }, i) => (
+            {typeOptions.map(({ label, onClick }, i) => (
               <button
                 key={i}
                 onClick={() => onClick(id)}

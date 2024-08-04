@@ -9,7 +9,7 @@ export enum Operations {
   "TOAST",
   "CLOSE_TOAST",
   "LOGIN",
-  "REGISTER"
+  "REGISTER",
 }
 
 

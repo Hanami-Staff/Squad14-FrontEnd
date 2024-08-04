@@ -11,14 +11,10 @@ import { useEffect } from "react"
 import Modal from "./Modal"
 import { useAppContext } from "@/context/appContext"
 
-
-
 interface FormModalProps {
     id?: string | undefined,
     operation: 'Criar' | 'Editar'
 }
-
-
 
 const FormModal = ({ id, operation }: FormModalProps) => {
     const { dispatch } = useDialogContext()
@@ -39,10 +35,11 @@ const FormModal = ({ id, operation }: FormModalProps) => {
     })
 
     useEffect(() => {
-        if (id!) {
+        if (id) {
             getPostById(id)
                 .then(res => {
                     reset({
+                        userId: user?.id!,
                         title: res?.title,
                         content: res?.content
                     })
@@ -52,10 +49,8 @@ const FormModal = ({ id, operation }: FormModalProps) => {
     }, [])
 
     const handleSubmitForm: SubmitHandler<Post> = data => {
-        dispatch({
-            type: Operations.CLOSE
-        })
-        id! ? updatePost(id, data) : createPost(data)
+        id ? updatePost(id, data) : createPost(data)
+        dispatch({ type: Operations.CLOSE })
     }
 
     return (
