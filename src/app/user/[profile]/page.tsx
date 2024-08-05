@@ -5,12 +5,13 @@ import { useAppContext } from "@/context/appContext"
 import { useDialogContext } from "@/context/dialogContext"
 import { usePost } from "@/hooks"
 import useUser from "@/hooks/useUser"
+import { Operations } from "@/types"
 import { getCookie } from "cookies-next"
 import { AnimatePresence } from "framer-motion"
 import { useEffect } from "react"
 
 const ProfilePage = () => {
-  const { isOpen, element, isToastOpen, toast } = useDialogContext();
+  const { isOpen, element, isToastOpen, toast, dispatch } = useDialogContext();
   const { user, posts } = useAppContext()
   const { getPostsByUser } = usePost()
   const { deleteUser } = useUser()
@@ -47,7 +48,8 @@ const ProfilePage = () => {
             </Button>
             <Button
               className="bg-red-600 hover:bg-red-500"
-              onClick={() => deleteUser(user?.id!)}
+              /* onClick={() => deleteUser(user?.id!)} */
+              onClick={() => dispatch({ type: Operations.DELETE, payload: { type: "USER", id: user?.id! } })}
             >
               Excluir
             </Button>

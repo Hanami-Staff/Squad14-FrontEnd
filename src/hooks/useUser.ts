@@ -24,7 +24,10 @@ const useUser = () => {
 
   const deleteUser = async (userId: string) => {
     api.delete(`/user/${userId}`)
-      .then(() => logout())
+      .then(() => {
+        dispatch({ type: Operations.CLOSE })
+        logout()
+      })
       .catch(() => { })
 
   }
