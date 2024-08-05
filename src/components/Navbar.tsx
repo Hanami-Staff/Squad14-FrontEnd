@@ -18,9 +18,12 @@ const Navbar = () => {
       <div
         className="max-w-[1200px] mx-auto h-[75px] flex items-center justify-between"
       >
-        <h2 className="text-2xl font-semibold">
+        <Link
+          href={'/'}
+          className="font-bold text-3xl"
+        >
           Squad14
-        </h2>
+        </Link>
 
         <div
           className="flex items-center gap-4"
