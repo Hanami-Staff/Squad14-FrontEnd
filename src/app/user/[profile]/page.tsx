@@ -4,6 +4,7 @@ import { Backdrop, Button, CardPost } from "@/components"
 import { useAppContext } from "@/context/appContext"
 import { useDialogContext } from "@/context/dialogContext"
 import { usePost } from "@/hooks"
+import useUser from "@/hooks/useUser"
 import { getCookie } from "cookies-next"
 import { AnimatePresence } from "framer-motion"
 import { useEffect } from "react"
@@ -12,6 +13,7 @@ const ProfilePage = () => {
   const { isOpen, element, isToastOpen, toast } = useDialogContext();
   const { user, posts } = useAppContext()
   const { getPostsByUser } = usePost()
+  const { deleteUser } = useUser()
 
 
   useEffect(() => {
@@ -45,6 +47,7 @@ const ProfilePage = () => {
             </Button>
             <Button
               className="bg-red-600 hover:bg-red-500"
+              onClick={() => deleteUser(user?.id!)}
             >
               Excluir
             </Button>

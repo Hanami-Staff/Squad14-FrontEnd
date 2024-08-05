@@ -14,7 +14,7 @@ const useUser = () => {
   const { setUser } = useAppContext()
   const [error, setError] = useState('')
 
-  const createUser = (user: User) => {
+  const createUser = async (user: User) => {
     api.post("/user", user)
       .then(res => {
         dispatch({ type: Operations.CLOSE })
@@ -22,7 +22,14 @@ const useUser = () => {
       .catch(err => console.error(err.response.data.message))
   }
 
-  const login = (user: Login) => {
+  const deleteUser = async (userId: string) => {
+    api.delete(`/user/${userId}`)
+      .then(() => logout())
+      .catch(() => { })
+
+  }
+
+  const login = async (user: Login) => {
     api.post("/login", user)
       .then(res => {
         setCookie('user', res.data, {
@@ -45,6 +52,7 @@ const useUser = () => {
 
   return {
     createUser,
+    deleteUser,
     login,
     logout,
     error
