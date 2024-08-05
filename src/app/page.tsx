@@ -18,7 +18,7 @@ export default function Home() {
   }, [])
 
   return (
-    <main className="h-[1100px] pt-[75px]">
+    <main className="pt-[75px]">
 
       <div className="flex flex-col gap-2 max-w-[500px] pt-4 px-4 mx-auto">
 
