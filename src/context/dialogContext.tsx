@@ -9,7 +9,7 @@ import { createContext, Dispatch, ReactNode, useContext, useReducer } from "reac
 type Action =
   | { type: Operations.REGISTER | Operations.CREATE | Operations.CLOSE | Operations.CLOSE_TOAST | Operations.LOGIN }
   | { type: Operations.UPDATE | Operations.READ, payload: string }
-  | { type: Operations.DELETE, payload: { type: "POST" | "COMMENT", id: string } }
+  | { type: Operations.DELETE, payload: { type: "POST" | "COMMENT" | "USER", id: string } }
   | { type: Operations.TOAST, payload: ToastProps }
 
 interface State {
