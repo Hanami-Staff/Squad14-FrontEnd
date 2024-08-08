@@ -43,6 +43,7 @@ const ProfilePage = () => {
           >
             <Button
               className="bg-emerald-600 hover:bg-emerald-500"
+              onClick={() => dispatch({ type: Operations.UPDATE_USER, payload: user?.id! })}
             >
               Editar
             </Button>
