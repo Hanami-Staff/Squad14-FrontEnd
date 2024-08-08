@@ -10,6 +10,7 @@ export enum Operations {
   "CLOSE_TOAST",
   "LOGIN",
   "REGISTER",
+  "UPDATE_USER"
 }
 
 
