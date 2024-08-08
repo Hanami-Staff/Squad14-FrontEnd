@@ -8,7 +8,7 @@ import { createContext, Dispatch, ReactNode, useContext, useReducer } from "reac
 
 type Action =
   | { type: Operations.REGISTER | Operations.CREATE | Operations.CLOSE | Operations.CLOSE_TOAST | Operations.LOGIN }
-  | { type: Operations.UPDATE | Operations.READ, payload: string }
+  | { type: Operations.UPDATE | Operations.READ | Operations.UPDATE_USER, payload: string }
   | { type: Operations.DELETE, payload: { type: "POST" | "COMMENT" | "USER", id: string } }
   | { type: Operations.TOAST, payload: ToastProps }
 
@@ -65,7 +65,13 @@ export const DialogProvider = ({ children }: { children: ReactNode }) => {
         return {
           ...state,
           isOpen: true,
-          element: <RegisterModal />
+          element: <RegisterModal operation="Criar" />
+        }
+      case Operations.UPDATE_USER:
+        return {
+          ...state,
+          isOpen: true,
+          element: <RegisterModal operation="Editar" id={action.payload} />
         }
       case Operations.LOGIN:
         return {

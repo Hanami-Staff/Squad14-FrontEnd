@@ -40,9 +40,6 @@ export const UpdateSchema = z.object({
   path: ["confirmPassword"]
 })
 
-
-
-
 export type UpdateUser = z.infer<typeof UpdateSchema>
 
 export type User = z.infer<typeof UserSchema>
