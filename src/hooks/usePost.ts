@@ -13,12 +13,22 @@ const usePost = () => {
   const { getComments } = useComment()
   const pathname = usePathname()
 
+  // Função para obter o token do localStorage
+  const getToken = () => {
+    return localStorage.getItem('token');
+  }
+
   const realoadPosts = async () => {
     pathname === '/' ? getAllPosts() : getPostsByUser(user?.id!)
   }
 
   const createPost = async (post: Post) => {
-    api.post('/posts', post)
+    const token = getToken();
+    api.post('/posts', post, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
       .then(() => {
         dispatch({
           type: Operations.TOAST,
@@ -33,7 +43,12 @@ const usePost = () => {
   }
 
   const getAllPosts = async () => {
-    api.get('/posts')
+    const token = getToken();
+    api.get('/posts', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
       .then(res => {
         setPosts(sortDate(res.data) as Array<Post>)
       })
@@ -41,7 +56,12 @@ const usePost = () => {
   }
 
   const getPostsByUser = async (userId: string) => {
-    api.get(`/postsByUser/${userId}`)
+    const token = getToken();
+    api.get(`/postsByUser/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
       .then(res => {
         const ordenedPosts = sortDate(res.data)
         setPosts(ordenedPosts as Array<Post>)
@@ -51,7 +71,12 @@ const usePost = () => {
 
   const getPostById = async (id: string): Promise<Post | undefined> => {
     try {
-      const res = await api.get(`/posts/${id}`)
+      const token = getToken();
+      const res = await api.get(`/posts/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
       const post = res.data
       getComments(id)
       return post
@@ -61,7 +86,12 @@ const usePost = () => {
   }
 
   const updatePost = (id: string, post: Post) => {
-    api.put(`/posts/${id}`, post)
+    const token = getToken();
+    api.put(`/posts/${id}`, post, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
       .then(res => {
         dispatch({ type: Operations.TOAST, payload: { type: "OK", message: res.data } })
       })
@@ -71,10 +101,13 @@ const usePost = () => {
       .finally(() => realoadPosts())
   }
 
-
-
   const deletePost = async (id: string) => {
-    api.delete(`/posts/${id}`)
+    const token = getToken();
+    api.delete(`/posts/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
       .then(res => {
         dispatch({ type: Operations.TOAST, payload: { type: "OK", message: res.data } })
       })
