@@ -1,4 +1,3 @@
-
 import { useState } from "react"
 import { deleteCookie, setCookie } from "cookies-next"
 import { useAppContext } from "@/context/appContext"
@@ -14,21 +13,55 @@ const useUser = () => {
   const { setUser } = useAppContext()
   const [error, setError] = useState('')
 
+
+  const getToken = () => {
+    return localStorage.getItem('token');
+  }
+
   const createUser = async (user: User) => {
-    api.post("/user", user)
+    api.post("auth/register", user)
       .then(res => {
         dispatch({ type: Operations.CLOSE })
       })
       .catch(err => console.error(err.response.data.message))
   }
 
+
+  const login = async (user: Login) => {
+    api.post("auth/login", user)
+      .then(res => {
+
+        localStorage.setItem('token', res.data.token)
+
+
+        setCookie('user', res.data, {
+          sameSite: "strict"
+        })
+
+        setError('')
+        setUser(res.data)
+        dispatch({ type: Operations.CLOSE })
+      })
+      .catch(err => setError(err.response.data.message))
+  }
+
   const getUserById = async (userId: string) => {
-    const res = await api.get(`/user/${userId}`)
+    const token = getToken();
+    const res = await api.get(`/user/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
     setUser(res.data)
   }
 
   const updateUser = async (userId: string, user: User) => {
-    api.put(`/user/${userId}`, user)
+    const token = getToken();
+    api.put(`/user/${userId}`, user, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
       .then(res => {
         dispatch({ type: Operations.TOAST, payload: { type: "OK", message: res.data } })
       })
@@ -39,29 +72,23 @@ const useUser = () => {
   }
 
   const deleteUser = async (userId: string) => {
-    api.delete(`/user/${userId}`)
+    const token = getToken();
+    api.delete(`/user/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
       .then(() => {
         dispatch({ type: Operations.CLOSE })
         logout()
       })
       .catch(() => { })
-
-  }
-
-  const login = async (user: Login) => {
-    api.post("/login", user)
-      .then(res => {
-        setCookie('user', res.data, {
-          sameSite: "strict"
-        })
-        setError('')
-        setUser(res.data)
-        dispatch({ type: Operations.CLOSE })
-      })
-      .catch(err => setError(err.response.data.message))
   }
 
   const logout = () => {
+
+    localStorage.removeItem('token');
+
     router.push('/')
     deleteCookie('user', {
       sameSite: 'strict'
