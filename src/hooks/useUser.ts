@@ -22,6 +22,22 @@ const useUser = () => {
       .catch(err => console.error(err.response.data.message))
   }
 
+  const getUserById = async (userId: string) => {
+    const res = await api.get(`/user/${userId}`)
+    setUser(res.data)
+  }
+
+  const updateUser = async (userId: string, user: User) => {
+    api.put(`/user/${userId}`, user)
+      .then(res => {
+        dispatch({ type: Operations.TOAST, payload: { type: "OK", message: res.data } })
+      })
+      .then(() => getUserById(userId))
+      .catch(err => {
+        dispatch({ type: Operations.TOAST, payload: { type: "ERROR", message: err.response.data.message } })
+      })
+  }
+
   const deleteUser = async (userId: string) => {
     api.delete(`/user/${userId}`)
       .then(() => {
@@ -56,6 +72,7 @@ const useUser = () => {
   return {
     createUser,
     deleteUser,
+    updateUser,
     login,
     logout,
     error
