@@ -103,3 +103,5 @@ Adicione as configurações necessárias para JWT em application.properties.
 ```
 
 ## 5. Link
+
+[Aplicação funcionando](https://squad14-front-end.vercel.app/)
