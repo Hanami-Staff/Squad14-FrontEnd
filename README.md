@@ -1,36 +1,105 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## 1. Visão Geral
 
-## Getting Started
+Este projeto é uma aplicação web que utiliza Next.js como frontend e Spring como backend para o programa Hanami.
 
-First, run the development server:
+## 2. Arquitetura do Projeto
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+A arquitetura do projeto é dividida em duas partes principais:
+
+**Frontend**: Construído com Next.js, uma estrutura React para a criação de interfaces de usuário. Next.js permite renderização no lado do servidor (SSR) e geração de sites estáticos, além de facilitar o desenvolvimento de rotas dinâmicas e integrações API.
+
+**Backend**: Desenvolvido com Spring Boot, uma plataforma poderosa para criar aplicações robustas em Java. O backend expõe uma API RESTful que o frontend consome para operações CRUD, autenticação, e outras funcionalidades.
+
+## 3. Configuração do Ambiente
+
+**Requisitos**:
+
+- Node.js versão 14 ou superior.
+- Java versão 11 ou superior.
+- Maven para gerenciar dependências do Spring.
+- Git para controle de versão.
+
+### Configuração do Backend (Spring)
+
+### 1. Clonar o repositório: 
+
+
+[https://github.com/Hanami-Staff/SQUAD-14.git](https://github.com/Hanami-Staff/SQUAD-14.git)
+
+```
+  cd SQUAD-14
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Instalar as dependências:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+  mvn install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### 3. Configurar o banco de dados:
 
-## Learn More
+Defina as configurações do banco de dados em src/main/resources/application.properties.
 
-To learn more about Next.js, take a look at the following resources:
+```
+    spring.datasource.url=jdbc:mysql://localhost:3306/seu_banco_de_dados
+    spring.datasource.username=seu_usuario
+    spring.datasource.password=sua_senha
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 4. Configurar JWT (se aplicável):
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Adicione as configurações necessárias para JWT em application.properties.
 
-## Deploy on Vercel
+### Configuração do Frontend (Next.js)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 1. Clonar o repositório: 
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+[https://github.com/Hanami-Staff/Squad14-FrontEnd.git](https://github.com/Hanami-Staff/Squad14-FrontEnd.git)
+
+```
+  cd Squad14-FrontEnd
+```
+
+### 2. Instalar as dependências:
+
+```
+  npm install
+```
+
+### 3. Configurar JWT (se aplicável):
+
+Adicione as configurações necessárias para JWT em application.properties.
+
+## 4. Execução do Projeto
+
+### Iniciando o Backend
+
+###  1.  Navegue até o diretório do backend:
+
+```
+  cd SQUAD-14
+```
+
+###  2.  Inicie a aplicação Spring:
+
+```
+  mvn spring-boot:run
+```
+
+###  3. A API estará disponível em http://localhost:8080.
+
+### Iniciando o Frontend
+
+###  1. Navegue até o diretório do frontend:
+
+```
+  cd Squad14-FrontEnd
+```
+
+###  2.  Inicie o servidor de desenvolvimento Next.js:
+
+```
+  npm run dev
+```
+
+## 5. Link
